@@ -3,7 +3,7 @@ package classfile
 type DeprecatedAttribute struct {
 	MarkerAttribute
 }
-type SyntheticAttributeAttribute struct {
+type SyntheticAttribute struct {
 	MarkerAttribute
 }
 type MarkerAttribute struct {

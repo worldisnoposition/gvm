@@ -23,7 +23,7 @@ func (self *ConstantIntegerInfo) readInfo(reader *ClassReader) {
 	self.val = int32(bytes)
 }
 
-func (self *ConstantFloatInfo) readIfo(reader *ClassReader) {
+func (self *ConstantFloatInfo) readInfo(reader *ClassReader) {
 	bytes := reader.readUint32()
 	self.val = math.Float32frombits(bytes)
 }

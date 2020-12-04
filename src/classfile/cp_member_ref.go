@@ -19,12 +19,12 @@ func (self *ConstantMemberrefInfo) NameAndDescriptor() (string, string) {
 	return self.cp.getNameAndType(self.nameAndTypeIndex)
 }
 
-type ConstanFieldrefInfo struct {
+type ConstantFieldrefInfo struct {
 	ConstantMemberrefInfo
 }
-type ConstanMethodInfo struct {
+type ConstantMethodrefInfo struct {
 	ConstantMemberrefInfo
 }
-type ConstanInterfaceMethodInfo struct {
+type ConstantInterfaceMethodrefInfo struct {
 	ConstantMemberrefInfo
 }

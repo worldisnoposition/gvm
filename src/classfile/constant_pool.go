@@ -19,7 +19,7 @@ func readConstantPool(reader *ClassReader) ConstantPool {
 	return cp
 }
 
-func (self ConstantPool) getConstantInfo(index uint16) ConstantPool {
+func (self ConstantPool) getConstantInfo(index uint16) ConstantInfo {
 	if cpInfo := self[index]; cpInfo != nil {
 		return cpInfo
 	}
@@ -68,15 +68,15 @@ func newConstantInfo(tag uint8, cp ConstantPool) ConstantInfo {
 	case CONSTANT_Fieldref:
 		return &ConstantFieldrefInfo{ConstantMemberrefInfo{cp: cp}}
 	case CONSTANT_Methodref:
-		return &ConstantMethodInfo{ConstantMemberrefInfo{cp: cp}}
+		return &ConstantMethodrefInfo{ConstantMemberrefInfo{cp: cp}}
 	case CONSTANT_InterfaceMethodref:
-		return &ConstantInterfaceMethodrefInfo{ConstantMemberInfo{cp: cp}}
+		return &ConstantInterfaceMethodrefInfo{ConstantMemberrefInfo{cp: cp}}
 	case CONSTANT_NameAndType:
 		return &ConstantNameAndTypeInfo{}
 	case CONSTANT_MethodType:
 		return &ConstantMethodTypeInfo{}
 	case CONSTANT_MethodHandle:
-		return &ConstantMethodHandleInfl{}
+		return &ConstantMethodHandleInfo{}
 	case CONSTANT_InvokeDynamic:
 		return &ConstantInvokeDynamicInfo{}
 	default:

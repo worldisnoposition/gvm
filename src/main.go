@@ -16,8 +16,11 @@ func main() {
 	//	startJVM(cmd)
 	//}
 
+	//cmd.XjreOption = "C:\\Program Files\\Java\\jre1.8.0_271"
+	//cmd.class = "java.lang.String"
 	cmd.XjreOption = "C:\\Program Files\\Java\\jre1.8.0_271"
-	cmd.class = "java.lang.String"
+	cmd.classpath = "D:\\coding\\java\\demo\\target\\classes"
+	cmd.class = "com.example.gvm.CircleCalculator"
 	startJVM(cmd)
 	fmt.Println(cmd.helpFlag)
 	fmt.Println(cmd.class)

@@ -44,7 +44,7 @@ func startJVM(cmd *Cmd) {
 	//testLocalVars(frame.LocalVars())
 	//testOperandStack(frame.OperandStack())
 
-	mainMethod := getMainMethdo(cf)
+	mainMethod := getMainMethd(cf)
 	if mainMethod != nil {
 		interpret(mainMethod)
 	} else {
@@ -59,9 +59,9 @@ func startJVM(cmd *Cmd) {
 	//fmt.Printf("classpath:%s class:%s args:%v\n", cmd.cpOption, cmd.class, cmd.args)
 }
 
-func getMainMethdo(cf *classfile.ClassFile) *classfile.MemberInfo {
+func getMainMethd(cf *classfile.ClassFile) *classfile.MemberInfo {
 	for _, m := range cf.Methods() {
-		if m.Name() == "main" && m.Descriptor() == "(Ljava/lang/String;)V" {
+		if m.Name() == "main" && m.Descriptor() == "([Ljava/lang/String;)V" {
 			return m
 		}
 	}

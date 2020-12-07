@@ -35,18 +35,38 @@ func Parse(classData []byte) (cf *ClassFile, err error) {
 //f.f
 //}
 func (self *ClassFile) read(reader *ClassReader) {
+	//printbyte(reader)
+	tempPrint(reader)
 	self.readAndCheckMagic(reader)
+	tempPrint(reader)
 	self.readAndCheckVersion(reader)
+	tempPrint(reader)
 	self.constantPool = readConstantPool(reader)
+	tempPrint(reader)
 	self.accessFlags = reader.readUint16()
+	tempPrint(reader)
 	self.thisClass = reader.readUint16()
+	tempPrint(reader)
 	self.superClass = reader.readUint16()
+	tempPrint(reader)
 	self.interfaces = reader.readUint16s()
+	tempPrint(reader)
 	self.fields = readMembers(reader, self.constantPool)
+	tempPrint(reader)
 	self.methods = readMembers(reader, self.constantPool)
+	tempPrint(reader)
 	self.attributes = readAttributes(reader, self.constantPool)
+	tempPrint(reader)
 }
 
+//func printbyte(reader *ClassReader) {
+//	for i := 0; i < len(reader.data); i += 2 {
+//		fmt.Print(string(reader.data[i:i+1]))
+//	}
+//}
+func tempPrint(reader *ClassReader) {
+	fmt.Println("data size: %v", len(reader.data))
+}
 func (self *ClassFile) MajorVersion() uint16 {
 	return self.majorVersion
 }

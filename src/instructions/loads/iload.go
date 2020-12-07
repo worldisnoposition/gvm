@@ -20,8 +20,18 @@ func (self *ILOAD) Execute(frame *rtda.Frame) {
 	_iload(frame, uint(self.Index))
 }
 
+func (self *ILOAD_0) Execute(frame *rtda.Frame) {
+	_iload(frame, 0)
+}
+
 func (self *ILOAD_1) Execute(frame *rtda.Frame) {
 	_iload(frame, 1)
 }
 
-//todo 制作了一个ILOAD,剩下的查github
+func (self *ILOAD_2) Execute(frame *rtda.Frame) {
+	_iload(frame, 2)
+}
+
+func (self *ILOAD_3) Execute(frame *rtda.Frame) {
+	_iload(frame, 3)
+}

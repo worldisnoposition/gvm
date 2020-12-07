@@ -15,7 +15,7 @@ func interpret(methodInfo *classfile.MemberInfo) {
 	bytecode := codeAttr.Code()
 
 	thread := rtda.NewThread()
-	frame := rtda.NewFrame(uint(maxLocals), uint(maxStack)) //todo 为什么格式不同
+	frame := thread.NewFrame(maxLocals, maxStack)
 	thread.PushFrame(frame)
 	defer catchErr(frame)
 	loop(thread, bytecode)
@@ -24,12 +24,14 @@ func interpret(methodInfo *classfile.MemberInfo) {
 func loop(thread *rtda.Thread, bytecode []byte) {
 	frame := thread.PopFrame()
 	reader := &base.BytecodeReader{}
-	for {
-		pc := frame.NextPC()
+	var pc int
+	for pc < (len(bytecode) - 1) {
+		pc = frame.NextPC()
 		thread.SetPC(pc)
 		reader.Reset(bytecode, pc)
 		opcode := reader.ReadUint8()
 		inst := instructions.NewInstruction(opcode)
+		inst.FetchOperands(reader)
 		frame.SetNextPC(reader.PC())
 		fmt.Printf("pc:%2d inst:%T %v\n", pc, inst, inst)
 		inst.Execute(frame)

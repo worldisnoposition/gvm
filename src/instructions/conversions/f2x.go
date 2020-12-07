@@ -1,4 +1,4 @@
-package math
+package conversions
 
 import (
 	"gvm/src/instructions/base"

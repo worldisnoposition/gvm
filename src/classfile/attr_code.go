@@ -25,12 +25,12 @@ func (self *CodeAttribute) readInfo(reader *ClassReader) {
 	self.attributes = readAttributes(reader, self.cp)
 }
 
-func (self *CodeAttribute) MaxLocals() uint16 {
-	return self.maxLocals
+func (self *CodeAttribute) MaxLocals() uint {
+	return uint(self.maxLocals)
 }
 
-func (self *CodeAttribute) MaxStack() uint16 {
-	return self.maxStack
+func (self *CodeAttribute) MaxStack() uint {
+	return uint(self.maxStack)
 }
 
 func (self *CodeAttribute) Code() []byte {

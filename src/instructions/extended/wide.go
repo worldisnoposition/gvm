@@ -1,4 +1,4 @@
-package extends
+package extended
 
 import (
 	"gvm/src/instructions/base"

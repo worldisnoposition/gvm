@@ -7,6 +7,10 @@ type OperandStack struct {
 	slots []Slot
 }
 
+func (self *OperandStack) Size() uint {
+	return self.size
+}
+
 func newOperandStack(maxStack uint) *OperandStack {
 	if maxStack > 0 {
 		return &OperandStack{

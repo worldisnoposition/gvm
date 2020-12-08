@@ -9,6 +9,26 @@ type Method struct {
 	code      []byte
 }
 
+func (self *Method) Class() *Class {
+	return self.class
+}
+
+func (self *Method) Name() string {
+	return self.name
+}
+
+func (self *Method) MaxLocals() uint {
+	return self.maxStack
+}
+
+func (self *Method) MaxStack() uint {
+	return self.maxStack
+}
+
+func (self *Method) IsStatic() bool {
+	return 0 != self.accessFlags&ACC_STATIC
+}
+
 func newMethods(class *Class, cfMthods []*classfile.MemberInfo) []*Method {
 	methods := make([]*Method, len(cfMthods))
 	for i, cfMethod := range cfMthods {

@@ -6,6 +6,7 @@ import (
 	"gvm/src/classfile"
 	"gvm/src/classpath"
 	"gvm/src/rtda"
+	"gvm/src/rtda/heap"
 	"os"
 	"strings"
 )
@@ -35,21 +36,28 @@ func printUsage() {
 
 func startJVM(cmd *Cmd) {
 	cp := classpath.Parse(cmd.XjreOption, cmd.cpOption)
+	classLoader := heap.NewClassLoader(cp)
 	className := strings.Replace(cmd.class, ".", "/", -1)
-	cf := loadClass(className, cp)
-
+	mainClass := classLoader.LoaderClass(className)
+	mainMethod := mainClass.GetMainMthod()
+	if mainMethod != nil {
+		interpret(mainMethod)
+	} else {
+		fmt.Printf("Main method not found in class %s\n", cmd.class)
+	}
 	//fmt.Println(cmd.class)//d打印类信息
 	//printClassInfo(cf)
 	//frame := rtda.NewFrame(100, 100)
 	//testLocalVars(frame.LocalVars())
 	//testOperandStack(frame.OperandStack())
 
-	mainMethod := getMainMethd(cf)
-	if mainMethod != nil {
-		interpret(mainMethod)
-	} else {
-		fmt.Printf("Main method not found in class: %s", cmd.class)
-	}
+	//mainMethod := getMainMethd(cf)
+	//if mainMethod != nil {
+	//	interpret(mainMethod)
+	//} else {
+	//	fmt.Printf("Main method not found in class: %s", cmd.class)
+	//}
+
 	//classData, _, err := cp.ReadClass(className)
 	//if err != nil {
 	//	fmt.Printf("Could not find or load main class %s\n", cmd.class)
@@ -57,6 +65,7 @@ func startJVM(cmd *Cmd) {
 	//}
 	//fmt.Printf("class data:%v\n", classData)
 	//fmt.Printf("classpath:%s class:%s args:%v\n", cmd.cpOption, cmd.class, cmd.args)
+
 }
 
 func getMainMethd(cf *classfile.ClassFile) *classfile.MemberInfo {

@@ -2,23 +2,28 @@ package main
 
 import (
 	"fmt"
-	"gvm/src/classfile"
 	"gvm/src/instructions"
 	"gvm/src/instructions/base"
 	"gvm/src/rtda"
+	"gvm/src/rtda/heap"
 )
 
-func interpret(methodInfo *classfile.MemberInfo) {
-	codeAttr := methodInfo.CodeAttribute()
-	maxLocals := codeAttr.MaxLocals()
-	maxStack := codeAttr.MaxStack()
-	bytecode := codeAttr.Code()
-
+func interpret(method *heap.Method) {
 	thread := rtda.NewThread()
-	frame := thread.NewFrame(maxLocals, maxStack)
+	frame := thread.NewFrame(method)
 	thread.PushFrame(frame)
 	defer catchErr(frame)
-	loop(thread, bytecode)
+	loop(thread, method.Code)
+	//codeAttr := methodInfo.CodeAttribute()
+	//maxLocals := codeAttr.MaxLocals()
+	//maxStack := codeAttr.MaxStack()
+	//bytecode := codeAttr.Code()
+	//
+	//thread := rtda.NewThread()
+	//frame := thread.NewFrame(maxLocals, maxStack)
+	//thread.PushFrame(frame)
+	//defer catchErr(frame)
+	//loop(thread, bytecode)
 }
 
 func loop(thread *rtda.Thread, bytecode []byte) {

@@ -1,5 +1,7 @@
 package rtda
 
+import "gvm/src/rtda/heap"
+
 type Thread struct {
 	pc    int
 	stack *Stack
@@ -30,10 +32,10 @@ func (self *Thread) PC() int {
 	return self.pc
 }
 
-func (self *Thread) NewFrame(maxLocals, maxStack uint) *Frame {
+func (self *Thread) NewFrame(method *heap.Method) *Frame {
 	return &Frame{
 		thread:       self,
-		localVars:    newLocalVars(maxLocals),
-		operandStack: newOperandStack(maxStack),
+		localVars:    newLocalVars(method.MaxLocals()),
+		operandStack: newOperandStack(method.MaxStack()),
 	}
 }

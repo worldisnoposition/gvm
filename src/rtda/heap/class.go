@@ -1,13 +1,16 @@
 package heap
 
-import "gvm/src/classfile"
+import (
+	"gvm/src/classfile"
+	"strings"
+)
 
 type Class struct {
 	accessFlags       uint16
 	name              string
 	superClassName    string
 	interfaceNames    []string
-	constantPool      *classfile.ConstantPool
+	constantPool      *ConstantPool
 	fields            []*Field
 	methods           []*Method
 	loader            *ClassLoader
@@ -40,4 +43,92 @@ func (self *Class) IsPrivate() bool {
 C
 func (self *Class) IsProtected() bool {
 	return 0 != self.accessFlags&ACC_PROTECTED
+}
+
+func (self *Class) isAccessibleTo(other *Class) bool {
+	return self.IsPublic() || self.getPackageName() == other.getPackageName()
+}
+
+func (self *Class) getPackageName() string {
+	if i := strings.LastIndex(self.name, "/"); i >= 0 {
+		return self.name[:i]
+	}
+	return ""
+}
+
+func (self *Class) isSubClassOf(other *Class) bool {
+	for c := self.superClass; c != nil; c = c.superClass {
+		if c == other {
+			return true
+		}
+	}
+	return false
+}
+
+func (self *Class) ConstantPool() *ConstantPool {
+	return self.constantPool
+}
+
+func (self *Class) NewObject() *Object {
+	return newObejct(self)
+}
+
+func (self *Class) StaticVars() *Slots {
+	return self.staticVars
+}
+
+func (self *Class) isAssignableFrom(other *Class) bool {
+	s, t := other, self
+	if s == t {
+		return true
+	}
+	if !t.isInterface() {
+		return s.isSubClassOf(t)
+	} else {
+		return s.isImplements(t)
+	}
+}
+
+func (self *Class) isInterface() bool {
+	return len(self.interfaces) > 0
+}
+
+func (self *Class) isImplements(iface *Class) bool {
+	for c := self; c != nil; c = c.superClass {
+		for _, i := range c.interfaces {
+			if i == iface || i.isSubInterfaceOf(iface) {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+func (self *Class) isSubInterfaceOf(iface *Class) bool {
+	for _, superInterface := range self.interfaces {
+		if superInterface == iface || superInterface.isSubInterfaceOf(iface) {
+			return true
+		}
+	}
+	return false
+}
+
+func (self *Class) GetMainMthod() *Method {
+	return self.getStaticMethod("main", "([Ljava/lang/String;)V")
+}
+
+func (self *Class) getStaticMethod(name string, descriptor string) *Method {
+	for _, method := range self.methods {
+		if method.IsStatic() && method.name == name && method.descriptor == descriptor {
+			return method
+		}
+	}
+	return nil
+}
+
+func newObejct(class *Class) *Object {
+	return &Object{
+		class:  class,
+		fields: newSlots(class.instanceSlotCount),
+	}
 }

@@ -6,7 +6,7 @@ type SymRef struct {
 	class     *Class
 }
 
-func (self *SymRef) ReaolvedClass() *Class {
+func (self *SymRef) ResolvedClass() *Class {
 	if self.class == nil {
 		self.resolveClassRef()
 	}

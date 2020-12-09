@@ -8,7 +8,7 @@ import (
 
 type PUT_FIELD struct{ base.Index16Instruction }
 
-func (self *PUT_STATIC) Execute(frame *rtda.Frame) {
+func (self *PUT_FIELD) Execute(frame *rtda.Frame) {
 	currentMethod := frame.Method()
 	currentClass := currentMethod.Class()
 	cp := currentClass.ConstantPool()
@@ -17,8 +17,10 @@ func (self *PUT_STATIC) Execute(frame *rtda.Frame) {
 	if field.IsStatic() {
 		panic("java.lang.IncompatibleClassChangeError")
 	}
-	if currentClass != field.Class() || currentMethod.Name() != "<init>" {
-		panic("java.lang.IllegalAccessError")
+	if field.IsFinal() {
+		if currentClass != field.Class() || currentMethod.Name() != "<init>" {
+			panic("java.lang.IllegalAccessError")
+		}
 	}
 	descriptor := field.Descriptor()
 	slotId := field.SlotId()

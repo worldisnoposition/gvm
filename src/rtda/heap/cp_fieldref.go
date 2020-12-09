@@ -34,10 +34,6 @@ func (self *FieldRef) resolveFieldRef() {
 	self.field = field
 }
 
-func (self *FieldRef) ResolvedClass() *Class {
-	return self.class
-}
-
 func lookupField(c *Class, name string, descriptor string) *Field {
 	for _, field := range c.fields {
 		if field.name == name && field.descriptor == descriptor {

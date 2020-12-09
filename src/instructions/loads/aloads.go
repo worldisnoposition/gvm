@@ -6,10 +6,10 @@ import (
 )
 
 type ALOAD struct{ base.Index8Instruction }
-type ALOAD_0 struct{ base.Index8Instruction }
-type ALOAD_1 struct{ base.Index8Instruction }
-type ALOAD_2 struct{ base.Index8Instruction }
-type ALOAD_3 struct{ base.Index8Instruction }
+type ALOAD_0 struct{ base.NoOperandsInstruction }
+type ALOAD_1 struct{ base.NoOperandsInstruction }
+type ALOAD_2 struct{ base.NoOperandsInstruction }
+type ALOAD_3 struct{ base.NoOperandsInstruction }
 
 func (self *ALOAD) Execute(frame *rtda.Frame) {
 	_aload(frame, self.Index)

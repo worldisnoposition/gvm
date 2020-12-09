@@ -38,7 +38,8 @@ func loop(thread *rtda.Thread, bytecode []byte) {
 		inst := instructions.NewInstruction(opcode)
 		inst.FetchOperands(reader)
 		frame.SetNextPC(reader.PC())
-		fmt.Printf("pc:%2d inst:%T %v\n", pc, inst, inst)
+		fmt.Printf("pc:%2d inst:%T %v", pc, inst, inst)
+		fmt.Printf(" stackSize:%v\n", frame.OperandStack().Size())
 		inst.Execute(frame)
 	}
 }

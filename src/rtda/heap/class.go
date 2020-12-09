@@ -44,6 +44,12 @@ func (self *Class) IsPrivate() bool {
 func (self *Class) IsProtected() bool {
 	return 0 != self.accessFlags&ACC_PROTECTED
 }
+func (self *Class) IsInterface() bool {
+	return 0 != self.accessFlags&ACC_INTERFACE
+}
+func (self *Class) IsAbstract() bool {
+	return 0 != self.accessFlags&ACC_ABSTRACT
+}
 
 func (self *Class) isAccessibleTo(other *Class) bool {
 	return self.IsPublic() || self.getPackageName() == other.getPackageName()

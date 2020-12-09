@@ -33,9 +33,5 @@ func (self *Thread) PC() int {
 }
 
 func (self *Thread) NewFrame(method *heap.Method) *Frame {
-	return &Frame{
-		thread:       self,
-		localVars:    newLocalVars(method.MaxLocals()),
-		operandStack: newOperandStack(method.MaxStack()),
-	}
+	return newFrame(self, method)
 }

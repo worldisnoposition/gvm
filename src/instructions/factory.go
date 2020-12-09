@@ -10,6 +10,7 @@ import . "gvm/src/instructions/constants"
 import . "gvm/src/instructions/control"
 
 //import . "gvm/src/instructions/conversions"
+import . "gvm/src/instructions/references"
 import . "gvm/src/instructions/extended"
 import . "gvm/src/instructions/loads"
 import . "gvm/src/instructions/math"
@@ -53,22 +54,22 @@ var (
 	iload_1     = &ILOAD_1{}
 	iload_2     = &ILOAD_2{}
 	iload_3     = &ILOAD_3{}
-	//lload_0     = &LLOAD_0{}
-	//lload_1     = &LLOAD_1{}
-	//lload_2     = &LLOAD_2{}
-	//lload_3     = &LLOAD_3{}
-	//fload_0     = &FLOAD_0{}
-	//fload_1     = &FLOAD_1{}
-	//fload_2     = &FLOAD_2{}
-	//fload_3     = &FLOAD_3{}
-	//dload_0     = &DLOAD_0{}
-	//dload_1     = &DLOAD_1{}
-	//dload_2     = &DLOAD_2{}
-	//dload_3     = &DLOAD_3{}
-	//aload_0     = &ALOAD_0{}
-	//aload_1     = &ALOAD_1{}
-	//aload_2     = &ALOAD_2{}
-	//aload_3     = &ALOAD_3{}
+	lload_0     = &LLOAD_0{}
+	lload_1     = &LLOAD_1{}
+	lload_2     = &LLOAD_2{}
+	lload_3     = &LLOAD_3{}
+	fload_0     = &FLOAD_0{}
+	fload_1     = &FLOAD_1{}
+	fload_2     = &FLOAD_2{}
+	fload_3     = &FLOAD_3{}
+	dload_0     = &DLOAD_0{}
+	dload_1     = &DLOAD_1{}
+	dload_2     = &DLOAD_2{}
+	dload_3     = &DLOAD_3{}
+	aload_0     = &ALOAD_0{}
+	aload_1     = &ALOAD_1{}
+	aload_2     = &ALOAD_2{}
+	aload_3     = &ALOAD_3{}
 	// iaload      = &IALOAD{}
 	// laload      = &LALOAD{}
 	// faload      = &FALOAD{}
@@ -77,7 +78,7 @@ var (
 	// baload      = &BALOAD{}
 	// caload      = &CALOAD{}
 	// saload      = &SALOAD{}
-	//istore_0 = &ISTORE_0{}
+	istore_0 = &ISTORE_0{}
 	istore_1 = &ISTORE_1{}
 	istore_2 = &ISTORE_2{}
 	istore_3 = &ISTORE_3{}
@@ -85,26 +86,26 @@ var (
 	lstore_1 = &LSTORE_1{}
 	lstore_2 = &LSTORE_2{}
 	lstore_3 = &LSTORE_3{}
-	//fstore_0 = &FSTORE_0{}
-	//fstore_1 = &FSTORE_1{}
-	//fstore_2 = &FSTORE_2{}
-	//fstore_3 = &FSTORE_3{}
-	//dstore_0 = &DSTORE_0{}
-	//dstore_1 = &DSTORE_1{}
-	//dstore_2 = &DSTORE_2{}
-	//dstore_3 = &DSTORE_3{}
-	//astore_0 = &ASTORE_0{}
-	//astore_1 = &ASTORE_1{}
-	//astore_2 = &ASTORE_2{}
-	//astore_3 = &ASTORE_3{}
-	// iastore  = &IASTORE{}
-	// lastore  = &LASTORE{}
-	// fastore  = &FASTORE{}
-	// dastore  = &DASTORE{}
-	// aastore  = &AASTORE{}
-	// bastore  = &BASTORE{}
-	// castore  = &CASTORE{}
-	// sastore  = &SASTORE{}
+	fstore_0 = &FSTORE_0{}
+	fstore_1 = &FSTORE_1{}
+	fstore_2 = &FSTORE_2{}
+	fstore_3 = &FSTORE_3{}
+	dstore_0 = &DSTORE_0{}
+	dstore_1 = &DSTORE_1{}
+	dstore_2 = &DSTORE_2{}
+	dstore_3 = &DSTORE_3{}
+	astore_0 = &ASTORE_0{}
+	astore_1 = &ASTORE_1{}
+	astore_2 = &ASTORE_2{}
+	astore_3 = &ASTORE_3{}
+	//iastore  = &IASTORE{}
+	//lastore  = &LASTORE{}
+	//fastore  = &FASTORE{}
+	//dastore  = &DASTORE{}
+	//aastore  = &AASTORE{}
+	//bastore  = &BASTORE{}
+	//castore  = &CASTORE{}
+	//sastore  = &SASTORE{}
 	pop     = &POP{}
 	pop2    = &POP2{}
 	dup     = &DUP{}
@@ -221,12 +222,12 @@ func NewInstruction(opcode byte) base.Instruction {
 		return &BIPUSH{}
 	//case 0x11:
 	//	return &SIPUSH{}
-	// case 0x12:
-	// 	return &LDC{}
-	// case 0x13:
-	// 	return &LDC_W{}
-	// case 0x14:
-	// 	return &LDC2_W{}
+	case 0x12:
+		return &LDC{}
+	case 0x13:
+		return &LDC_W{}
+	case 0x14:
+		return &LDC2_W{}
 	case 0x15:
 		return &ILOAD{}
 	//case 0x16:
@@ -245,38 +246,38 @@ func NewInstruction(opcode byte) base.Instruction {
 		return iload_2
 	case 0x1d:
 		return iload_3
-	//case 0x1e:
-	//	return lload_0
-	//case 0x1f:
-	//	return lload_1
-	//case 0x20:
-	//	return lload_2
-	//case 0x21:
-	//	return lload_3
-	//case 0x22:
-	//	return fload_0
-	//case 0x23:
-	//	return fload_1
-	//case 0x24:
-	//	return fload_2
-	//case 0x25:
-	//	return fload_3
-	//case 0x26:
-	//	return dload_0
-	//case 0x27:
-	//	return dload_1
-	//case 0x28:
-	//	return dload_2
-	//case 0x29:
-	//	return dload_3
-	//case 0x2a:
-	//	return aload_0
-	//case 0x2b:
-	//	return aload_1
-	//case 0x2c:
-	//	return aload_2
-	//case 0x2d:
-	//	return aload_3
+	case 0x1e:
+		return lload_0
+	case 0x1f:
+		return lload_1
+	case 0x20:
+		return lload_2
+	case 0x21:
+		return lload_3
+	case 0x22:
+		return fload_0
+	case 0x23:
+		return fload_1
+	case 0x24:
+		return fload_2
+	case 0x25:
+		return fload_3
+	case 0x26:
+		return dload_0
+	case 0x27:
+		return dload_1
+	case 0x28:
+		return dload_2
+	case 0x29:
+		return dload_3
+	case 0x2a:
+		return aload_0
+	case 0x2b:
+		return aload_1
+	case 0x2c:
+		return aload_2
+	case 0x2d:
+		return aload_3
 	// case 0x2e:
 	// 	return iaload
 	// case 0x2f:
@@ -297,14 +298,14 @@ func NewInstruction(opcode byte) base.Instruction {
 		return &ISTORE{}
 	case 0x37:
 		return &LSTORE{}
-	//case 0x38:
-	//	return &FSTORE{}
-	//case 0x39:
-	//	return &DSTORE{}
-	//case 0x3a:
-	//	return &ASTORE{}
-	//case 0x3b:
-	//	return istore_0
+	case 0x38:
+		return &FSTORE{}
+	case 0x39:
+		return &DSTORE{}
+	case 0x3a:
+		return &ASTORE{}
+	case 0x3b:
+		return istore_0
 	case 0x3c:
 		return istore_1
 	case 0x3d:
@@ -319,30 +320,30 @@ func NewInstruction(opcode byte) base.Instruction {
 		return lstore_2
 	case 0x42:
 		return lstore_3
-	//case 0x43:
-	//	return fstore_0
-	//case 0x44:
-	//	return fstore_1
-	//case 0x45:
-	//	return fstore_2
-	//case 0x46:
-	//	return fstore_3
-	//case 0x47:
-	//	return dstore_0
-	//case 0x48:
-	//	return dstore_1
-	//case 0x49:
-	//	return dstore_2
-	//case 0x4a:
-	//	return dstore_3
-	//case 0x4b:
-	//	return astore_0
-	//case 0x4c:
-	//	return astore_1
-	//case 0x4d:
-	//	return astore_2
-	//case 0x4e:
-	//	return astore_3
+	case 0x43:
+		return fstore_0
+	case 0x44:
+		return fstore_1
+	case 0x45:
+		return fstore_2
+	case 0x46:
+		return fstore_3
+	case 0x47:
+		return dstore_0
+	case 0x48:
+		return dstore_1
+	case 0x49:
+		return dstore_2
+	case 0x4a:
+		return dstore_3
+	case 0x4b:
+		return astore_0
+	case 0x4c:
+		return astore_1
+	case 0x4d:
+		return astore_2
+	case 0x4e:
+		return astore_3
 	// case 0x4f:
 	// 	return iastore
 	// case 0x50:
@@ -541,26 +542,26 @@ func NewInstruction(opcode byte) base.Instruction {
 	// 	return areturn
 	case 0xb1:
 		return _return
-	//	case 0xb2:
-	//		return &GET_STATIC{}
-	// case 0xb3:
-	// 	return &PUT_STATIC{}
-	// case 0xb4:
-	// 	return &GET_FIELD{}
-	// case 0xb5:
-	// 	return &PUT_FIELD{}
-	//	case 0xb6:
-	//		return &INVOKE_VIRTUAL{}
-	// case 0xb7:
-	// 	return &INVOKE_SPECIAL{}
-	// case 0xb8:
-	// 	return &INVOKE_STATIC{}
+	case 0xb2:
+		return &GET_STATIC{}
+	case 0xb3:
+		return &PUT_STATIC{}
+	case 0xb4:
+		return &GET_FIELD{}
+	case 0xb5:
+		return &PUT_FIELD{}
+	case 0xb6:
+		return &INVOKE_VIRTUAL{}
+	case 0xb7:
+		return &INVOKE_SPECIAL{}
+	//case 0xb8:
+	//	return &INVOKE_STATIC{}
 	// case 0xb9:
 	// 	return &INVOKE_INTERFACE{}
 	// case 0xba:
 	// 	return &INVOKE_DYNAMIC{}
-	// case 0xbb:
-	// 	return &NEW{}
+	case 0xbb:
+		return &NEW{}
 	// case 0xbc:
 	// 	return &NEW_ARRAY{}
 	// case 0xbd:
@@ -569,10 +570,10 @@ func NewInstruction(opcode byte) base.Instruction {
 	// 	return arraylength
 	// case 0xbf:
 	// 	return athrow
-	// case 0xc0:
-	// 	return &CHECK_CAST{}
-	// case 0xc1:
-	// 	return &INSTANCE_OF{}
+	case 0xc0:
+		return &CHECK_CAST{}
+	case 0xc1:
+		return &INSTANCE_OF{}
 	// case 0xc2:
 	// 	return monitorenter
 	// case 0xc3:

@@ -18,7 +18,7 @@ func (self *Method) Name() string {
 }
 
 func (self *Method) MaxLocals() uint {
-	return self.maxStack
+	return self.maxLocals
 }
 
 func (self *Method) MaxStack() uint {

@@ -18,7 +18,7 @@ type Class struct {
 	interfaces        []*Class
 	instanceSlotCount uint
 	staticSlotCount   uint
-	staticVars        *Slots
+	staticVars        Slots
 }
 
 func newClass(cf *classfile.ClassFile) *Class {
@@ -29,7 +29,7 @@ func newClass(cf *classfile.ClassFile) *Class {
 	class.interfaceNames = cf.InterfaceNames()
 	class.constantPool = newConstantPool(class, cf.ConstantPool())
 	class.fields = newFields(class, cf.Fields())
-	class.methods = newMethods(class, cf.Methods)
+	class.methods = newMethods(class, cf.Methods())
 	return class
 }
 
@@ -40,7 +40,7 @@ func (self *Class) IsPublic() bool {
 func (self *Class) IsPrivate() bool {
 	return 0 != self.accessFlags&ACC_PRIVATE
 }
-C
+
 func (self *Class) IsProtected() bool {
 	return 0 != self.accessFlags&ACC_PROTECTED
 }
@@ -73,7 +73,7 @@ func (self *Class) NewObject() *Object {
 	return newObejct(self)
 }
 
-func (self *Class) StaticVars() *Slots {
+func (self *Class) StaticVars() Slots {
 	return self.staticVars
 }
 

@@ -29,6 +29,10 @@ func (self *Method) IsStatic() bool {
 	return 0 != self.accessFlags&ACC_STATIC
 }
 
+func (self *Method) Code() []byte {
+	return self.code
+}
+
 func newMethods(class *Class, cfMthods []*classfile.MemberInfo) []*Method {
 	methods := make([]*Method, len(cfMthods))
 	for i, cfMethod := range cfMthods {

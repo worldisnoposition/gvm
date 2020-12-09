@@ -22,6 +22,7 @@ func main() {
 	cmd.classpath = "D:\\code\\go\\gvm\\java\\classes"
 	cmd.class = "com.example.gvm.CircleCalculator"
 	cmd.class = "com.example.gvm.GaussTest"
+	cmd.class = "com.example.gvm.MyObject"
 	cmd.cpOption = "D:\\code\\go\\gvm\\java\\classes"
 	startJVM(cmd)
 	fmt.Println(cmd.helpFlag)

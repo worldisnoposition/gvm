@@ -54,3 +54,7 @@ func (self *MemberInfo) ConstantValueAttribute() *ConstantValueAttribute {
 	}
 	return nil
 }
+
+func (self *MemberInfo) AccessFlags() uint16 {
+	return self.accessFlags
+}

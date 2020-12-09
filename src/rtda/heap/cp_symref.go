@@ -15,7 +15,7 @@ func (self *SymRef) ReaolvedClass() *Class {
 
 func (self *SymRef) resolveClassRef() {
 	d := self.cp.class
-	c := d.loader.LoaderClass(self.className)
+	c := d.loader.LoadClass(self.className)
 	if !c.isAccessibleTo(d) {
 		panic("java.lang.IllegalAccessError")
 	}

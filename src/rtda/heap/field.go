@@ -72,3 +72,7 @@ func (self *Field) Descriptor() string {
 func (self *Field) SlotId() uint {
 	return self.slotId
 }
+
+func (self *Field) ConstValueIndex() uint {
+	return self.constValueIndex
+}

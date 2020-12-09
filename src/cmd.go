@@ -38,7 +38,7 @@ func startJVM(cmd *Cmd) {
 	cp := classpath.Parse(cmd.XjreOption, cmd.cpOption)
 	classLoader := heap.NewClassLoader(cp)
 	className := strings.Replace(cmd.class, ".", "/", -1)
-	mainClass := classLoader.LoaderClass(className)
+	mainClass := classLoader.LoadClass(className)
 	mainMethod := mainClass.GetMainMthod()
 	if mainMethod != nil {
 		interpret(mainMethod)

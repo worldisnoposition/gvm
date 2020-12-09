@@ -18,7 +18,7 @@ func NewClassLoader(cp *classpath.Classpath) *ClassLoader {
 	}
 }
 
-func (self *ClassLoader) LoaderClass(name string) *Class {
+func (self *ClassLoader) LoadClass(name string) *Class {
 	if class, ok := self.classMap[name]; ok {
 		return class
 	}
@@ -70,7 +70,7 @@ func initStaticFinalVar(class *Class, field *Field) {
 			vars.SetLong(slotId, val)
 		case "F":
 			val := cp.GetConstant(cpIndex).(float32)
-			vars.SetDouble(slotId, val)
+			vars.SetFloat(slotId, val)
 		case "D":
 			val := cp.GetConstant(cpIndex).(float64)
 			vars.SetDouble(slotId, val)
@@ -134,14 +134,14 @@ func resolveInterfaces(class *Class) {
 	if interfaceCount > 0 {
 		class.interfaces = make([]*Class, interfaceCount)
 		for i, interfaceName := range class.interfaceNames {
-			class.interfaces[i] = class.loader.LoaderClass(interfaceName)
+			class.interfaces[i] = class.loader.LoadClass(interfaceName)
 		}
 	}
 }
 
 func resolveSuperClass(class *Class) {
 	if class.name != "java/lang/Object" {
-		class.superClass = class.loader.LoadClass(class.superClass)
+		class.superClass = class.loader.LoadClass(class.superClassName)
 	}
 }
 

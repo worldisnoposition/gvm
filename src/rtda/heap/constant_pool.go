@@ -48,7 +48,7 @@ func newConstantPool(class *Class, cfCp classfile.ConstantPool) *ConstantPool {
 			consts[i] = newClassRef(rtCp, classInfo)
 		case *classfile.ConstantFieldrefInfo:
 			fieldsInfo := cpInfo.(*classfile.ConstantFieldrefInfo)
-			consts[i] = newFieldsRef(rtCp, fieldsInfo)
+			consts[i] = newFieldRef(rtCp, fieldsInfo)
 		case *classfile.ConstantMethodrefInfo:
 			methodrefInfo := cpInfo.(*classfile.ConstantMethodrefInfo)
 			consts[i] = newMethodRef(rtCp, methodrefInfo)

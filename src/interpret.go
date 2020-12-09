@@ -13,7 +13,7 @@ func interpret(method *heap.Method) {
 	frame := thread.NewFrame(method)
 	thread.PushFrame(frame)
 	defer catchErr(frame)
-	loop(thread, method.Code)
+	loop(thread, method.Code())
 	//codeAttr := methodInfo.CodeAttribute()
 	//maxLocals := codeAttr.MaxLocals()
 	//maxStack := codeAttr.MaxStack()

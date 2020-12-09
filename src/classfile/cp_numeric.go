@@ -1,7 +1,6 @@
 package classfile
 
 import (
-	"gvm/src/rtda/heap"
 	"math"
 )
 
@@ -26,7 +25,7 @@ func (self *ConstantIntegerInfo) readInfo(reader *ClassReader) {
 	self.val = int32(bytes)
 }
 
-func (self *ConstantIntegerInfo) Value() heap.Constant {
+func (self *ConstantIntegerInfo) Value() int32 {
 	return self.val
 }
 
@@ -35,7 +34,7 @@ func (self *ConstantFloatInfo) readInfo(reader *ClassReader) {
 	self.val = math.Float32frombits(bytes)
 }
 
-func (self *ConstantFloatInfo) Value() heap.Constant {
+func (self *ConstantFloatInfo) Value() float32 {
 	return self.val
 }
 
@@ -44,7 +43,7 @@ func (self *ConstantLongInfo) readInfo(reader *ClassReader) {
 	self.val = int64(bytes)
 }
 
-func (self *ConstantLongInfo) Value() heap.Constant {
+func (self *ConstantLongInfo) Value() int64 {
 	return self.val
 }
 
@@ -53,6 +52,6 @@ func (self *ConstantDoubleInfo) readInfo(reader *ClassReader) {
 	self.val = math.Float64frombits(bytes)
 }
 
-func (self *ConstantDoubleInfo) Value() heap.Constant {
+func (self *ConstantDoubleInfo) Value() float64 {
 	return self.val
 }

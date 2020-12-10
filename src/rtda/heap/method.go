@@ -33,6 +33,10 @@ func (self *Method) Code() []byte {
 	return self.code
 }
 
+func (self *Method) isAccessibleTo(class *Class) bool {
+	return false //todo
+}
+
 func newMethods(class *Class, cfMthods []*classfile.MemberInfo) []*Method {
 	methods := make([]*Method, len(cfMthods))
 	for i, cfMethod := range cfMthods {

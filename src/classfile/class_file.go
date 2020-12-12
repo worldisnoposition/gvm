@@ -36,27 +36,27 @@ func Parse(classData []byte) (cf *ClassFile, err error) {
 //}
 func (self *ClassFile) read(reader *ClassReader) {
 	//printbyte(reader)
-	tempPrint(reader)
+	//tempPrint(reader)
 	self.readAndCheckMagic(reader)
-	tempPrint(reader)
+	//tempPrint(reader)
 	self.readAndCheckVersion(reader)
-	tempPrint(reader)
+	//tempPrint(reader)
 	self.constantPool = readConstantPool(reader)
-	tempPrint(reader)
+	//tempPrint(reader)
 	self.accessFlags = reader.readUint16()
-	tempPrint(reader)
+	//tempPrint(reader)
 	self.thisClass = reader.readUint16()
-	tempPrint(reader)
+	//tempPrint(reader)
 	self.superClass = reader.readUint16()
-	tempPrint(reader)
+	//tempPrint(reader)
 	self.interfaces = reader.readUint16s()
-	tempPrint(reader)
+	//tempPrint(reader)
 	self.fields = readMembers(reader, self.constantPool)
-	tempPrint(reader)
+	//tempPrint(reader)
 	self.methods = readMembers(reader, self.constantPool)
-	tempPrint(reader)
+	//tempPrint(reader)
 	self.attributes = readAttributes(reader, self.constantPool)
-	tempPrint(reader)
+	//tempPrint(reader)
 }
 
 //func printbyte(reader *ClassReader) {
@@ -65,7 +65,7 @@ func (self *ClassFile) read(reader *ClassReader) {
 //	}
 //}
 func tempPrint(reader *ClassReader) {
-	fmt.Println("data size: %v", len(reader.data))
+	//fmt.Println("data size: %v", len(reader.data))
 }
 func (self *ClassFile) MajorVersion() uint16 {
 	return self.majorVersion
@@ -118,6 +118,10 @@ func (self *ClassFile) readAndCheckVersion(reader *ClassReader) {
 	case 45:
 		return
 	case 46, 47, 48, 49, 50, 51, 52:
+		if self.minorVersion == 0 {
+			return
+		}
+	case 55: //jdk11
 		if self.minorVersion == 0 {
 			return
 		}

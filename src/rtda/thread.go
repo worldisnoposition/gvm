@@ -1,6 +1,8 @@
 package rtda
 
-import "gvm/src/rtda/heap"
+import (
+	"gvm/src/rtda/heap"
+)
 
 type Thread struct {
 	pc    int
@@ -34,4 +36,12 @@ func (self *Thread) PC() int {
 
 func (self *Thread) NewFrame(method *heap.Method) *Frame {
 	return newFrame(self, method)
+}
+
+func (self *Thread) TopFrame() *Frame {
+	return self.stack.top()
+}
+
+func (self *Thread) IsStackEmpty() bool {
+	return self.stack.isEmpty()
 }

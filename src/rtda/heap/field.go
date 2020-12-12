@@ -30,45 +30,6 @@ func (self *Field) copyAttributes(cfField *classfile.MemberInfo) {
 
 }
 
-func (self *Field) isAccessibleTo(d *Class) bool {
-	if self.IsPublic() {
-		return true
-	}
-	c := self.class
-	if self.IsProtected() {
-		return d == c || d.isSubClassOf(c) || c.getPackageName() == d.getPackageName()
-	}
-	return d == c
-}
-
-func (self *Field) Class() *Class {
-	return self.class
-}
-
-func (self *Field) IsStatic() bool {
-	return 0 != self.accessFlags&ACC_STATIC
-}
-
-func (self *Field) IsPublic() bool {
-	return 0 != self.accessFlags&ACC_PUBLIC
-}
-
-func (self *Field) IsPrivate() bool {
-	return 0 != self.accessFlags&ACC_PRIVATE
-}
-
-func (self *Field) IsProtected() bool {
-	return 0 != self.accessFlags&ACC_PROTECTED
-}
-
-func (self *Field) IsFinal() bool {
-	return 0 != self.accessFlags&ACC_FINAL
-}
-
-func (self *Field) Descriptor() string {
-	return self.descriptor
-}
-
 func (self *Field) SlotId() uint {
 	return self.slotId
 }

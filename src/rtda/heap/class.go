@@ -132,6 +132,42 @@ func (self *Class) getStaticMethod(name string, descriptor string) *Method {
 	return nil
 }
 
+func (self *Class) IsSuperClassOf(class *Class) bool {
+	return self.superClassName == class.name
+}
+
+func (self *Class) GetPackageName() string {
+	return self.getPackageName()
+}
+
+func (self *Class) IsSubClassOf(class *Class) bool {
+	return self.name == class.superClassName
+}
+
+func (self *Class) SuperClass() *Class {
+	return self.superClass
+}
+
+func (self *Class) IsSuper() bool {
+	return 0 != self.accessFlags&ACC_SUPER
+
+}
+
+func (self *Class) IsImplements(iface *Class) bool {
+	for c := self; c != nil; c = c.superClass {
+		for _, i := range c.interfaces {
+			if i == iface || i.isSubInterfaceOf(iface) {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+func (self *Class) Name() string {
+	return self.name
+}
+
 func newObejct(class *Class) *Object {
 	return &Object{
 		class:  class,

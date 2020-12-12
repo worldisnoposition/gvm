@@ -36,12 +36,12 @@ func printUsage() {
 
 func startJVM(cmd *Cmd) {
 	cp := classpath.Parse(cmd.XjreOption, cmd.cpOption)
-	classLoader := heap.NewClassLoader(cp)
+	classLoader := heap.NewClassLoader(cp, cmd.versionFlag)
 	className := strings.Replace(cmd.class, ".", "/", -1)
 	mainClass := classLoader.LoadClass(className)
 	mainMethod := mainClass.GetMainMthod()
 	if mainMethod != nil {
-		interpret(mainMethod)
+		interpret(mainMethod, cmd.verboseInstFlag)
 	} else {
 		fmt.Printf("Main method not found in class %s\n", cmd.class)
 	}
@@ -107,13 +107,15 @@ func loadClass(className string, cp *classpath.Classpath) *classfile.ClassFile {
 }
 
 type Cmd struct {
-	helpFlag    bool
-	versionFlag bool
-	cpOption    string
-	class       string
-	args        []string
-	XjreOption  string
-	classpath   string
+	helpFlag         bool
+	versionFlag      bool
+	verboseClassFlag bool
+	verboseInstFlag  bool
+	cpOption         string
+	class            string
+	args             []string
+	XjreOption       string
+	classpath        string
 }
 
 func testLocalVars(vars rtda.LocalVars) {

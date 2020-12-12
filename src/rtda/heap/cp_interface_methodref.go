@@ -37,6 +37,14 @@ func (self *InterfaceMethodRef) resolveInterfaceMethodRef() {
 	self.method = method
 }
 
+func (self *InterfaceMethodRef) Name() string {
+	return self.name
+}
+
+func (self *InterfaceMethodRef) Descriptor() string {
+	return self.descriptor
+}
+
 func lookupInterfaceMethod(iface *Class, name string, descriptor string) *Method {
 	for _, method := range iface.methods {
 		if method.name == name && method.descriptor == descriptor {

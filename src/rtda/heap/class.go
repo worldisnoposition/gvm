@@ -52,6 +52,20 @@ func (self *Class) IsAbstract() bool {
 	return 0 != self.accessFlags&ACC_ABSTRACT
 }
 
+func (self *Class) isJ1Object() bool {
+	return self.name == "java/lang/Object"
+}
+func (self *Class) isJ1Cloneable() bool {
+	return self.name == "java/lang/Cloneable"
+}
+func (self *Class) isJioSerializable() bool {
+	return self.name == "java/io/Serializable"
+}
+
+func (self *Class) isSuperInterfaceOf(iface *Class) bool {
+	return iface.isSubInterfaceOf(self)
+}
+
 func (self *Class) isAccessibleTo(other *Class) bool {
 	return self.IsPublic() || self.getPackageName() == other.getPackageName()
 }
@@ -82,18 +96,6 @@ func (self *Class) NewObject() *Object {
 
 func (self *Class) StaticVars() Slots {
 	return self.staticVars
-}
-
-func (self *Class) isAssignableFrom(other *Class) bool {
-	s, t := other, self
-	if s == t {
-		return true
-	}
-	if !t.isInterface() {
-		return s.isSubClassOf(t)
-	} else {
-		return s.isImplements(t)
-	}
 }
 
 func (self *Class) isInterface() bool {
@@ -171,8 +173,8 @@ func (self *Class) Name() string {
 
 func newObejct(class *Class) *Object {
 	return &Object{
-		class:  class,
-		fields: newSlots(class.instanceSlotCount),
+		class: class,
+		data:  newSlots(class.instanceSlotCount),
 	}
 }
 
@@ -186,4 +188,77 @@ func (self *Class) StartInit() {
 
 func (self *Class) GetClinitMethod() *Method {
 	return self.getStaticMethod("<clinit>", "()V")
+}
+
+func (self *Class) ArrayClass() *Class {
+	arrayClassName := getArrayClassName(self.name)
+	return self.loader.LoadClass(arrayClassName)
+}
+func (self *Class) ComponentClass() *Class {
+	componentClassName := getComponentClassName(self.name)
+	return self.loader.LoadClass(componentClassName)
+}
+
+func getComponentClassName(className string) string {
+	if className[0] == '[' {
+		compnentTypeDescriptor := className[1:]
+		return toClassName(compnentTypeDescriptor)
+	}
+	panic("Not array: " + className)
+}
+
+func toClassName(descriptor string) string {
+	if descriptor[0] == '[' {
+		return descriptor
+	}
+	if descriptor[0] == 'L' {
+		return descriptor[1 : len(descriptor)-1]
+	}
+	for className, d := range primitiveTypes {
+		if d == descriptor {
+			return className
+		}
+	}
+	panic("Invalid descriptor: " + descriptor)
+}
+
+func getArrayClassName(className string) string {
+	return "[" + toDescriptor(className)
+}
+
+func toDescriptor(className string) string {
+	if className[0] == '[' {
+		return className
+	}
+	if d, ok := primitiveTypes[className]; ok {
+		return d
+	}
+	return "L" + className + ";"
+}
+
+func (self *Class) getField(name, descriptor string, isStatic bool) *Field {
+	for c := self; c != nil; c = c.superClass {
+		for _, field := range c.fields {
+			if field.IsStatic() == isStatic && field.name == name && field.descriptor == descriptor {
+				return field
+			}
+		}
+	}
+	return nil
+}
+
+func (self *Class) Loader() *ClassLoader {
+	return self.loader
+}
+
+var primitiveTypes = map[string]string{
+	"void":    "V",
+	"boolean": "Z",
+	"byte":    "B",
+	"short":   "S",
+	"int":     "I",
+	"long":    "J",
+	"char":    "C",
+	"float":   "F",
+	"double":  "D",
 }

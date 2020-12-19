@@ -3,6 +3,7 @@ package constants
 import (
 	"gvm/src/instructions/base"
 	"gvm/src/rtda"
+	"gvm/src/rtda/heap"
 )
 
 type LDC struct{ base.Index8Instruction }
@@ -32,13 +33,18 @@ func (self *LDC2_W) Execute(frame *rtda.Frame) {
 
 func _ldc(frame *rtda.Frame, index uint) {
 	stack := frame.OperandStack()
-	cp := frame.Method().Class().ConstantPool()
-	c := cp.GetConstant(index)
+	//cp := frame.Method().Class().ConstantPool()
+	//c := cp.GetConstant(index)
+	class := frame.Method().Class()
+	c := class.ConstantPool().GetConstant(index)
 	switch c.(type) {
 	case int32:
 		stack.PushInt(c.(int32))
 	case float32:
 		stack.PushFloat(c.(float32))
+	case string:
+		internedStr := heap.JString(class.Loader(), c.(string))
+		stack.PushRef(internedStr)
 	default:
 		panic("todo:ldc!")
 	}

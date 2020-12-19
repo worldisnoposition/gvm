@@ -12,7 +12,7 @@ func (self *INVOKE_SPECIAL) Execute(frame *rtda.Frame) {
 	currentClass := frame.Method().Class()
 	cp := currentClass.ConstantPool()
 	methodRef := cp.GetConstant(self.Index).(*heap.MethodRef)
-	resolveClass := methodRef.ResolveClass()
+	resolveClass := methodRef.ResolvedClass()
 	resolveMethod := methodRef.ResolveMethod()
 	if resolveMethod.Name() == "<init>" && resolveMethod.Class() != resolveClass {
 		panic("java.lang.NoSuchMethodError")
@@ -21,7 +21,7 @@ func (self *INVOKE_SPECIAL) Execute(frame *rtda.Frame) {
 		panic("java.lang.InCompatibleClassChangeError")
 	}
 	ref := frame.OperandStack().GetRefFromTop(resolveMethod.ArgSlotCount())
-	if ref != nil {
+	if ref == nil {
 		panic("java.lang.NullPointException")
 	}
 	if resolveMethod.IsProtected() && resolveMethod.Class().IsSuperClassOf(currentClass) && resolveMethod.Class().GetPackageName() != currentClass.GetPackageName() && !ref.Class().IsSubClassOf(currentClass) {

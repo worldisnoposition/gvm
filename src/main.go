@@ -1,9 +1,5 @@
 package main
 
-import (
-	"fmt"
-)
-
 func main() {
 	cmd := parseCmd()
 	//if cmd.versionFlag {
@@ -24,9 +20,9 @@ func main() {
 	cmd.class = "com.example.gvm.CircleCalculator"
 	cmd.class = "com.example.gvm.GaussTest"
 	cmd.class = "com.example.gvm.MyObject"
+	cmd.class = "com.example.gvm.InvokeDemo"
+	cmd.class = "com.example.gvm.FibonacciTest"
 	cmd.cpOption = "D:\\code\\go\\gvm\\java\\classes"
 	cmd.verboseInstFlag = true
 	startJVM(cmd)
-	fmt.Println(cmd.helpFlag)
-	fmt.Println(cmd.class)
 }

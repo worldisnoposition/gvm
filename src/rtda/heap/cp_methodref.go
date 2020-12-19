@@ -31,7 +31,7 @@ func (self *MethodRef) ResolveMethod() *Method {
 
 func (self *MethodRef) resolveMethodRef() {
 	d := self.cp.class
-	c := self.ResolveClass()
+	c := self.ResolvedClass()
 	if c.IsInterface() {
 		panic("java.lang.IncompatibleClassChangeError")
 	}
@@ -43,10 +43,6 @@ func (self *MethodRef) resolveMethodRef() {
 		panic("java.lang.IllegalAccessError")
 	}
 	self.method = method
-}
-
-func (self *MethodRef) ResolveClass() *Class {
-	return self.class
 }
 
 func lookupMethod(class *Class, name string, descriptor string) *Method {

@@ -27,14 +27,15 @@ func interpret(method *heap.Method, logInst bool) {
 }
 
 func loop(thread *rtda.Thread, logInst bool) {
-	frame := thread.PopFrame()
 	reader := &base.BytecodeReader{}
-	bytecode := frame.Method().Code()
+	//frame := thread.PopFrame()
+	//bytecode := frame.Method().Code()
 	var pc int
 	for {
+		frame := thread.CurrentFrame()
 		pc = frame.NextPC()
 		thread.SetPC(pc)
-		reader.Reset(bytecode, pc)
+		reader.Reset(frame.Method().Code(), pc)
 		opcode := reader.ReadUint8()
 		inst := instructions.NewInstruction(opcode)
 		inst.FetchOperands(reader)
@@ -50,8 +51,8 @@ func loop(thread *rtda.Thread, logInst bool) {
 			break
 		}
 	}
-	fmt.Printf(" stackSize:%v", frame.OperandStack().Size())
-	fmt.Println("	frame.localVars: %v\n", frame.LocalVars())
+	//fmt.Printf(" stackSize:%v", frame.OperandStack().Size())
+	//fmt.Println("	frame.localVars: %v\n", frame.LocalVars())
 }
 
 func logInstruction(frame *rtda.Frame, inst base.Instruction) {

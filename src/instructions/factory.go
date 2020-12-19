@@ -116,10 +116,10 @@ var (
 	dup2_x2 = &DUP2_X2{}
 	swap    = &SWAP{}
 	iadd    = &IADD{}
-	//ladd    = &LADD{}
-	//fadd    = &FADD{}
-	//dadd    = &DADD{}
-	//isub    = &ISUB{}
+	ladd    = &LADD{}
+	fadd    = &FADD{}
+	dadd    = &DADD{}
+	isub    = &ISUB{}
 	//lsub    = &LSUB{}
 	//fsub    = &FSUB{}
 	//dsub    = &DSUB{}
@@ -166,16 +166,16 @@ var (
 	//i2b     = &I2B{}
 	//i2c     = &I2C{}
 	//i2s     = &I2S{}
-	lcmp  = &LCMP{}
-	fcmpl = &FCMPL{}
-	fcmpg = &FCMPG{}
-	dcmpl = &DCMPL{}
-	dcmpg = &DCMPG{}
-	// ireturn = &IRETURN{}
-	// lreturn = &LRETURN{}
-	// freturn = &FRETURN{}
-	// dreturn = &DRETURN{}
-	// areturn = &ARETURN{}
+	lcmp    = &LCMP{}
+	fcmpl   = &FCMPL{}
+	fcmpg   = &FCMPG{}
+	dcmpl   = &DCMPL{}
+	dcmpg   = &DCMPG{}
+	ireturn = &IRETURN{}
+	lreturn = &LRETURN{}
+	freturn = &FRETURN{}
+	dreturn = &DRETURN{}
+	areturn = &ARETURN{}
 	_return = &RETURN{}
 	// arraylength   = &ARRAY_LENGTH{}
 	// athrow        = &ATHROW{}
@@ -238,8 +238,8 @@ func NewInstruction(opcode byte) base.Instruction {
 	//	return &DLOAD{}
 	//case 0x19:
 	//	return &ALOAD{}
-	//case 0x1a:
-	//	return iload_0
+	case 0x1a:
+		return iload_0
 	case 0x1b:
 		return iload_1
 	case 0x1c:
@@ -380,14 +380,14 @@ func NewInstruction(opcode byte) base.Instruction {
 	//	return swap
 	case 0x60:
 		return iadd
-	//case 0x61:
-	//	return ladd
-	//case 0x62:
-	//	return fadd
-	//case 0x63:
-	//	return dadd
-	//case 0x64:
-	//	return isub
+	case 0x61:
+		return ladd
+	case 0x62:
+		return fadd
+	case 0x63:
+		return dadd
+	case 0x64:
+		return isub
 	//case 0x65:
 	//	return lsub
 	//case 0x66:
@@ -532,8 +532,8 @@ func NewInstruction(opcode byte) base.Instruction {
 		return &LOOKUP_SWITCH{}
 	// case 0xac:
 	// 	return ireturn
-	// case 0xad:
-	// 	return lreturn
+	case 0xad:
+		return lreturn
 	// case 0xae:
 	// 	return freturn
 	// case 0xaf:
@@ -554,10 +554,10 @@ func NewInstruction(opcode byte) base.Instruction {
 		return &INVOKE_VIRTUAL{}
 	case 0xb7:
 		return &INVOKE_SPECIAL{}
-	//case 0xb8:
-	//	return &INVOKE_STATIC{}
-	// case 0xb9:
-	// 	return &INVOKE_INTERFACE{}
+	case 0xb8:
+		return &INVOKE_STATIC{}
+	case 0xb9:
+		return &INVOKE_INTERFACE{}
 	// case 0xba:
 	// 	return &INVOKE_DYNAMIC{}
 	case 0xbb:

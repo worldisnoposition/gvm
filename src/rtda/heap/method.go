@@ -37,10 +37,6 @@ func (self *Method) Code() []byte {
 	return self.code
 }
 
-func (self *Method) isAccessibleTo(class *Class) bool {
-	return false //todo
-}
-
 func (self *Method) ArgSlotCount() uint {
 	return self.argSlotCount
 }
@@ -61,6 +57,10 @@ func (self *Method) calcArgSlotCount() {
 func (self *Method) IsAbstract() bool {
 	return 0 != self.accessFlags&heap.ACC_ABSTRACT
 
+}
+
+func (self *Method) IsNative() bool {
+	return 0 != self.accessFlags&ACC_NATIVE
 }
 
 func newMethods(class *Class, cfMthods []*classfile.MemberInfo) []*Method {

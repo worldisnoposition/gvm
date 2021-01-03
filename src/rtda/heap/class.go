@@ -20,6 +20,7 @@ type Class struct {
 	staticSlotCount   uint
 	staticVars        Slots
 	initStarted       bool
+	jClass            *Object
 }
 
 func newClass(cf *classfile.ClassFile) *Class {
@@ -151,6 +152,10 @@ func (self *Class) SuperClass() *Class {
 	return self.superClass
 }
 
+func (self *Class) JClass() *Object {
+	return self.jClass
+}
+
 func (self *Class) IsSuper() bool {
 	return 0 != self.accessFlags&ACC_SUPER
 
@@ -249,6 +254,10 @@ func (self *Class) getField(name, descriptor string, isStatic bool) *Field {
 
 func (self *Class) Loader() *ClassLoader {
 	return self.loader
+}
+
+func (self *Class) JavaName() string {
+	return strings.Replace(self.name, "/", ".", 1)
 }
 
 var primitiveTypes = map[string]string{

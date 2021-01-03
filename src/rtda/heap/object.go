@@ -3,7 +3,8 @@ package heap
 type Object struct {
 	class *Class
 	//fields Slots
-	data interface{}
+	data  interface{}
+	extra interface{}
 }
 
 func (self *Object) Data() interface{} {

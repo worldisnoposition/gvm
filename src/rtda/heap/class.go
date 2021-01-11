@@ -260,6 +260,11 @@ func (self *Class) JavaName() string {
 	return strings.Replace(self.name, "/", ".", 1)
 }
 
+func (self *Class) IsPrimitive() bool {
+	_, ok := primitiveTypes[self.name]
+	return ok
+}
+
 var primitiveTypes = map[string]string{
 	"void":    "V",
 	"boolean": "Z",
